@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Search{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <style>
+        form {
+            margin-top: 50px;
+        }
+
+        form div {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<table border="1">
+    <thead>
+    {% for headText in flightsKeys %}
+        <th>
+            {{ headText }}
+        </th>
+    {% endfor %}
+    </thead>
+    <tbody>
+    {% for flightData in flights %}
+        <tr>
+            {% for flightKey, dataItem in flightData %}
+                {% if flightKey == 'transporter' %}
+                    <td>
+                        {% for key, item in dataItem %}
+                            {{ key }} - {{ item }}<br/>
+                        {% endfor %}
+                    </td>
+                {% else %}
+                    <td>
+                        {{ dataItem }}
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<form method="get">
+    <div>
+        <label for="departure-airport">departure-airport</label>
+        <input type="text" name="departure-airport">
+    </div>
+    <div>
+        <label for="arrival-airport">arrival-airport</label>
+        <input type="text" name="arrival-airport">
+    </div>
+    <div>
+        <label for="departure-date">departure-date</label>
+        <input type="text" name="departure-date">
+    </div>
+    <div>
+        <button type="submit">Search</button>
+    </div>
+</form>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

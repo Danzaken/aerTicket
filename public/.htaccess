@@ -1,0 +1,32 @@
+# Mod_Autoindex
+<IfModule mod_autoindex.c>
+  # Забороняємо перегляд вмісту папок
+  Options -Indexes
+</IfModule>
+
+# headers_module is protect framed
+<IfModule headers_module>
+       Header set X-Content-Type-Options nosniff
+       Header set X-Frame-Options SAMEORIGIN
+</IfModule>
+
+<FilesMatch "composer\.$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak)$">
+    Require all denied
+</FilesMatch>
+# Mod_Rewrite
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+  # Вмикаємо mod_rewrite
+  RewriteEngine On
+
+  # Якщо це папка чи файл, відкриваємо її/його
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  # У іншому випадку перенаправляємо до index.php
+  RewriteRule . index.php
+</IfModule>
+
